@@ -1,4 +1,4 @@
-import { Table, Modal, Button, InputGroup, FormControl, Row, Col, Form } from 'react-bootstrap'
+import { Table, Modal, Button, InputGroup, FormControl, Row, Col, Form, Toast } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 
 import "react-datepicker/dist/react-datepicker.css"
@@ -154,7 +154,7 @@ const UpdateUserModal = props => {
                     <FormControl
                         placeholder={(
                             UTCDate(props.currentSelectedUser.end_preiod_date)
-                            - UTCDate(props.currentSelectedUser.start_preiod_date)
+                            - UTCDate()
                         ) / (60 * 60 * 1000)}
                         onChange={event => setUserPeriodDate(event.target.value)}
                         aria-label="period"
@@ -213,13 +213,18 @@ const UpdateUserModal = props => {
 }
 
 const AddUserModal = props => {
+    const [show, setShow] = useState(false)
+    const [currentKey, setCurrentKey] = useState('')
     const [userPeriodDate, setUserPeriodDate] = useState(4)
     const [username, setUsername] = useState('')
 
     return (
         <Modal
             show={props.showAddUserWindow}
-            onHide={()=>props.setShowAddUserWindow(false)}
+            onHide={()=>{
+                props.setShowAddUserWindow(false)
+                setShow(false)
+            }}
             backdrop="static"
             keyboard={false}
         >
@@ -254,16 +259,32 @@ const AddUserModal = props => {
 
                     fetch(`${props.apiServer}/add_user?adminApiKey=${props.adminApiKey}&username=${username}&end_preiod_date=${date}&start_preiod_date=${UTCDate()}`)
                     .then(response => response.json()).then(newCreatedUser => {
-                        alert(JSON.stringify(newCreatedUser ? newCreatedUser.key : "Error" ))
-
                         props.setUsersList(props.usersList.concat([newCreatedUser]))
-                        props.setShowAddUserWindow(false)
+
+                        setCurrentKey(newCreatedUser ? newCreatedUser.key : "Error")
                         setUsername("")
+                        setShow(true)
                     })
                 }}>
                     Add
                 </Button>
             </Modal.Footer>
+
+            <Toast style={{margin: "15px"}} onClose={() => {
+                setShow(false)
+                props.setShowAddUserWindow(false)
+            }} show={show} delay={20000} autohide>
+                <Toast.Header>
+                    <img
+                        src="holder.js/20x20?text=%20"
+                        className="rounded me-2"
+                        alt=""
+                    />
+                    <strong className="me-auto">Copy key!</strong>
+                    <small>now</small>
+                </Toast.Header>
+                <Toast.Body>{currentKey}</Toast.Body>
+            </Toast>
         </Modal>
     ) 
 }
