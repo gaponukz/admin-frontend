@@ -70,7 +70,7 @@ const TablePage = props => {
             <thead>
                 <tr>
                     <th>#</th> <th>Username</th> <th>Has trial</th> 
-                    <th>Start</th> <th>End</th> <th></th>
+                    <th>Start</th> <th>End</th> <th>Active</th> <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -81,6 +81,7 @@ const TablePage = props => {
                         <td>{user.has_trial ? "Yes" : "No"}</td>
                         <td>{user.start_preiod_date.toLocaleString()}</td>
                         <td>{user.end_preiod_date.toLocaleString()}</td>
+                        <td>{user.is_key_active ? "Yes": "No"}</td>
                         <td>
                             <button style={buttonStyle} onClick={() => {
                                 setCurrentSelectedUser(user)
@@ -154,7 +155,7 @@ const UpdateUserModal = props => {
                     <FormControl
                         placeholder={(
                             UTCDate(props.currentSelectedUser.end_preiod_date)
-                            - UTCDate()
+                            - (props.currentSelectedUser.is_key_active ? UTCDate() : UTCDate(props.currentSelectedUser.start_preiod_date))
                         ) / (60 * 60 * 1000)}
                         onChange={event => setUserPeriodDate(event.target.value)}
                         aria-label="period"
@@ -165,11 +166,12 @@ const UpdateUserModal = props => {
                         const date = nowDateAdd(userPeriodDate)
                         const dateTimeNow = UTCDate()
 
-                        await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${key}&end_preiod_date=${date}&start_preiod_date=${dateTimeNow}`)
+                        await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${key}&end_preiod_date=${date}&start_preiod_date=${dateTimeNow}&is_key_active=${false}`)
                         .then(async response => await response.json()).then(async response => {
                             if (response.modifiedCount === 1) {
                                 let newUserObject = props.currentSelectedUser
-
+                                
+                                newUserObject.is_key_active = false
                                 newUserObject.end_preiod_date = date
                                 newUserObject.start_preiod_date = dateTimeNow
                                 props.setCurrentSelectedUser(newUserObject)
