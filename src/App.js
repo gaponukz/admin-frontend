@@ -8,7 +8,7 @@ import { useState } from 'react'
 import './App.css'
 
 const App = () => {
-    const apiServer = "https://secret-stream-69608.herokuapp.com"
+    const apiServer = "https://secret-stream-69608.herokuapp.com" // "http://localhost:5000"
     let cookie = JSON.parse(document.cookie || "{}")
     const [page, setPage] = useState(cookie.isAuthed ? 'table' : 'login')
     const [adminApiKey, setAdminApiKey] = useState(cookie.adminApiKey ? cookie.adminApiKey : '')

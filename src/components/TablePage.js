@@ -209,6 +209,17 @@ const UpdateUserModal = props => {
                     }}>Save</Button>
                     </Col>
                 </Row>
+                <br/>
+                <Button variant="outline-secondary" onClick={async () => {
+                    await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${props.currentSelectedUser.key}&uuid=${null}`)
+                    .then(async response => await response.json()).then(async response => {
+                        if (response.modifiedCount === 1) {
+                            let newUserObject = props.currentSelectedUser
+                            newUserObject.uuid = null
+                            props.setCurrentSelectedUser(newUserObject)
+                        }
+                    })
+                }}>Reset user device uuid</Button>
             </Modal.Body>
         </Modal>
     )
