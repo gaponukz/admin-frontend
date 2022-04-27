@@ -109,6 +109,7 @@ const TablePage = props => {
 }
 
 const UpdateUserModal = props => {
+    const [show, setShow] = useState(true)
     const [userPeriodDate, setUserPeriodDate] = useState(0)
     const [username, setUsername] = useState('')
     const [userHasTrial, setUserTrial] = useState(false)
@@ -163,7 +164,7 @@ const UpdateUserModal = props => {
                     />
                     <Button variant="outline-secondary" id="button-addon2" onClick={async() => {
                         const key = props.currentSelectedUser.key
-                        const date = nowDateAdd(userPeriodDate)
+                        const date = nowDateAdd(userPeriodDate == "inf" ? 277131360 : userPeriodDate)
                         const dateTimeNow = UTCDate()
 
                         await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${key}&end_preiod_date=${date}&start_preiod_date=${dateTimeNow}&is_key_active=${false}`)
@@ -221,6 +222,18 @@ const UpdateUserModal = props => {
                     })
                 }}>Reset user device uuid</Button>
             </Modal.Body>
+            <Toast style={{margin: "15px"}} onClose={() => setShow(false)} show={show}>
+                <Toast.Header>
+                    <img
+                        src="holder.js/20x20?text=%20"
+                        className="rounded me-2"
+                        alt=""
+                    />
+                    <strong className="me-auto">Copy key!</strong>
+                    <small>now</small>
+                </Toast.Header>
+                <Toast.Body>{props.currentSelectedUser.key}</Toast.Body>
+            </Toast>
         </Modal>
     )
 }
@@ -268,7 +281,7 @@ const AddUserModal = props => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-secondary" onClick={() => {
-                    const date = nowDateAdd(userPeriodDate)
+                    const date = nowDateAdd(userPeriodDate == "inf" ? 277131360 : userPeriodDate)
 
                     fetch(`${props.apiServer}/add_user?adminApiKey=${props.adminApiKey}&username=${username}&end_preiod_date=${date}&start_preiod_date=${UTCDate()}`)
                     .then(response => response.json()).then(newCreatedUser => {
