@@ -164,7 +164,7 @@ const UpdateUserModal = props => {
                     />
                     <Button variant="outline-secondary" id="button-addon2" onClick={async() => {
                         const key = props.currentSelectedUser.key
-                        const date = nowDateAdd(userPeriodDate == "inf" ? 277131360 : userPeriodDate)
+                        const date = nowDateAdd(userPeriodDate == "inf" ? 27713136 : userPeriodDate)
                         const dateTimeNow = UTCDate()
 
                         await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${key}&end_preiod_date=${date}&start_preiod_date=${dateTimeNow}&is_key_active=${false}`)
@@ -281,7 +281,7 @@ const AddUserModal = props => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-secondary" onClick={() => {
-                    const date = nowDateAdd(userPeriodDate == "inf" ? 277131360 : userPeriodDate)
+                    const date = nowDateAdd(userPeriodDate == "inf" ? 27713136 : userPeriodDate)
 
                     fetch(`${props.apiServer}/add_user?adminApiKey=${props.adminApiKey}&username=${username}&end_preiod_date=${date}&start_preiod_date=${UTCDate()}`)
                     .then(response => response.json()).then(newCreatedUser => {
