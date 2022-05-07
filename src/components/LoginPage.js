@@ -2,10 +2,8 @@ import { Card, InputGroup, FormControl, Button } from 'react-bootstrap'
 
 const LoginPage = props => {
     const setAdminApiKeyInMemory = () => {
-        let cookie = JSON.parse(document.cookie || "{}")
-        cookie.adminApiKey = props.adminApiKey
-        cookie.isAuthed = Boolean(props.adminApiKey)
-        document.cookie = JSON.stringify(cookie)
+        localStorage.setItem("adminApiKey", props.adminApiKey)
+        localStorage.setItem("isAuth", Boolean(props.adminApiKey))
     }
     const setAdminApiKey = event => {
         props.setAdminApiKey(event.target.value)
