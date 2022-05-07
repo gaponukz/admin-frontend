@@ -10,7 +10,7 @@ import './App.css'
 
 const App = () => {
     const apiServer = "https://secret-stream-69608.herokuapp.com" // "http://localhost:5000"
-    const [page, setPage] = useState(localStorage.getItem("isAuth") == "true" ? localStorage.getItem("page") : '')
+    const [page, setPage] = useState(localStorage.getItem("isAuth") == "true" ? localStorage.getItem("page") : 'login')
     const [adminApiKey, setAdminApiKey] = useState(localStorage.getItem("adminApiKey") ? localStorage.getItem("adminApiKey") : '')
 
     return (<>
