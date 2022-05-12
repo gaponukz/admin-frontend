@@ -4,6 +4,8 @@ const LoginPage = props => {
     const setAdminApiKeyInMemory = () => {
         localStorage.setItem("adminApiKey", props.adminApiKey)
         localStorage.setItem("isAuth", Boolean(props.adminApiKey))
+
+        props.setPage(localStorage.getItem("page") || "table")
     }
     const setAdminApiKey = event => {
         props.setAdminApiKey(event.target.value)

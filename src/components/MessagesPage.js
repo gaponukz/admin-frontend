@@ -21,10 +21,15 @@ const MessagesPage = props => {
         .then(response => response.json()).then(response => {
             localStorage.setItem('isAuth', 'true')
             setMessagesList(response.messages)
+
+            if (!response.isLoginSuccess) {
+                props.setPage('login')
+            }
         })
     } catch (error) {
         console.error(error)
         setMessagesList([])
+        props.setPage('login')
     }}, [])
 
     return (<>

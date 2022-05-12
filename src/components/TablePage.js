@@ -44,10 +44,14 @@ const TablePage = props => {
             .then(response => response.json()).then(response => {
                 setLoginSuccess(response.isLoginSuccess)
                 setUsersList(response.users)
+                if (!response.isLoginSuccess) {
+                    props.setPage('login')
+                }
             })
         } catch (error) {
             setLoginSuccess(false)
             setUsersList([])
+            props.setPage('login')
         }
     }, [])
     return (<>

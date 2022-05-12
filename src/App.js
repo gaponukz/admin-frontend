@@ -17,10 +17,10 @@ const App = () => {
         <RouteNavbar setPage={setPage}/>
         <Container style={{marginTop: "65px", textAlign: "-webkit-center"}}>
             {{
-                login: <LoginPage adminApiKey={adminApiKey} setAdminApiKey={setAdminApiKey} />,
-                table: adminApiKey ? <TablePage adminApiKey={adminApiKey} apiServer={apiServer}/> : <br/>,
-                posts: <PostsPage adminApiKey={adminApiKey} apiServer={apiServer}/>,
-                messages: <MessagesPage adminApiKey={adminApiKey} apiServer={apiServer}/>
+                login: <LoginPage setPage={setPage} adminApiKey={adminApiKey} setAdminApiKey={setAdminApiKey} />,
+                table: adminApiKey ? <TablePage setPage={setPage} adminApiKey={adminApiKey} apiServer={apiServer}/> : <br/>,
+                posts: <PostsPage setPage={setPage} adminApiKey={adminApiKey} apiServer={apiServer}/>,
+                messages: <MessagesPage setPage={setPage} adminApiKey={adminApiKey} apiServer={apiServer}/>
             }[page] || <div>Something went wrong</div>}
         </Container>
     </>)
