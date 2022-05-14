@@ -70,6 +70,8 @@ const TablePage = props => {
             apiServer={props.apiServer}
         />
 
+        <FilterUsersTable usersList={usersList} setUsersList={setUsersList}/>
+
         <Table hover>
             <thead>
                 <tr>
@@ -109,6 +111,30 @@ const TablePage = props => {
             adminApiKey={props.adminApiKey}
             apiServer={props.apiServer}
         />
+    </>)
+}
+
+const FilterUsersTable = props => {
+    const selectStyles = {width: "200px", position: "absolute", margin: "-35px"}
+    const isActiveUser = user => {
+        return (UTCDate(user.end_preiod_date) - (user.is_key_active ? UTCDate() : UTCDate(user.start_preiod_date))) / (60 * 60 * 1000) > 0
+    }
+
+    const filterUsers = event => {
+        if (event.target.value === "all") {
+            props.setUsersList(props.usersList)
+        } else if (event.target.value === "non_active") {
+            props.setUsersList(props.usersList.filter(user => !isActiveUser(user)))
+        } else if (event.target.value === "active") {
+            props.setUsersList(props.usersList.filter(user => isActiveUser(user)))
+        }
+    }
+    return (<>
+        <Form.Select onChange={(event) => {filterUsers(event)}} style={selectStyles}>
+            <option value="all">All</option>
+            <option value="non_active">Period has pased</option>
+            <option value="acvite">Active</option>
+        </Form.Select>
     </>)
 }
 
