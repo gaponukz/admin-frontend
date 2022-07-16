@@ -242,7 +242,7 @@ const UpdateUserModal = props => {
                 </Row>
                 <br/>
                 <Button variant="outline-secondary" onClick={async () => {
-                    await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${props.currentSelectedUser.key}&uuid=${null}`)
+                    await fetch(`${props.apiServer}/edit_user?adminApiKey=${props.adminApiKey}&key=${props.currentSelectedUser.key}&uuid=${null}&is_key_active=false`)
                     .then(async response => await response.json()).then(async response => {
                         if (response.modifiedCount === 1) {
                             let newUserObject = props.currentSelectedUser

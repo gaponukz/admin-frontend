@@ -40,7 +40,7 @@ const PostsPage = props => {
                         <Card.Body>
                             <Card.Title>{post.title}</Card.Title>
                             <Card.Text>
-                                {post.discription}
+                                {post.description}
                             </Card.Text>
                         </Card.Body>
                         <RemovePostButton
@@ -92,7 +92,7 @@ const AddPostButton = props => {
 
 const AddPostModal = props => {
     const [title, setTitle] = useState('')
-    const [discription, setDiscription] = useState('')
+    const [description, setdescription] = useState('')
     const [image, setImage] = useState('')
 
     return (
@@ -124,11 +124,11 @@ const AddPostModal = props => {
                     aria-label="Image"
                 />
 
-                <FloatingLabel controlId="floatingTextarea2" label="Discription">
+                <FloatingLabel controlId="floatingTextarea2" label="description">
                     <Form.Control
-                        as="textarea"onChange={event => setDiscription(event.target.value)}
-                        defaultValue={discription}
-                        placeholder="Leave a discription here"
+                        as="textarea"onChange={event => setdescription(event.target.value)}
+                        defaultValue={description}
+                        placeholder="Leave a description here"
                         style={{ height: '100px' }}
                     />
                 </FloatingLabel>
@@ -136,12 +136,12 @@ const AddPostModal = props => {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-secondary" onClick={() => {
-                    fetch(`${props.apiServer}/add_post?adminApiKey=${props.adminApiKey}&title=${title}&image=${image}&discription=${discription}`)
+                    fetch(`${props.apiServer}/add_post?adminApiKey=${props.adminApiKey}&title=${title}&image=${image}&description=${description}`)
                     .then(response => response.json()).then(newCreatedPost => {
                         if (newCreatedPost) {
                             props.setPostsList(props.postsList.concat([newCreatedPost]))
                             props.setShowAddPostWindow(false)
-                            setDiscription("")
+                            setdescription("")
                             setTitle("")
                             setImage("")
                         }
