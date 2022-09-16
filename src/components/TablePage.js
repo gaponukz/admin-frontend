@@ -1,4 +1,4 @@
-import { Table, Modal, Button, InputGroup, FormControl, Row, Col, Form, Toast } from 'react-bootstrap'
+import { Table, Modal, Button, InputGroup, FormControl, Row, Col, Form, Toast, Badge } from 'react-bootstrap'
 import { useState, useEffect } from 'react'
 
 import "react-datepicker/dist/react-datepicker.css"
@@ -83,7 +83,7 @@ const TablePage = props => {
                 {usersList.map((user, index) =>
                     <tr>
                         <td>{index}</td>
-                        <td>{user.username}</td>
+                        <td>{user.username} {user.use_another_keys ? <Badge pill bg="warning" text="dark"> Suspicious </Badge> : "" }</td>
                         <td>{user.has_trial ? "Yes" : "No"}</td>
                         <td>{user.start_preiod_date.toLocaleString()}</td>
                         <td>{user.end_preiod_date.toLocaleString()}</td>
@@ -127,6 +127,8 @@ const FilterUsersTable = props => {
             props.setUsersList(props.usersList.filter(user => !isActiveUser(user)))
         } else if (event.target.value === "active") {
             props.setUsersList(props.usersList.filter(user => isActiveUser(user)))
+        } else if (event.target.value === "suspicious") {
+            props.setUsersList(props.usersList.filter(user => user.use_another_keys))
         }
     }
     return (<>
@@ -134,6 +136,7 @@ const FilterUsersTable = props => {
             <option value="all">All</option>
             <option value="non_active">Period has pased</option>
             <option value="acvite">Active</option>
+            <option value="suspicious">Suspicious</option>
         </Form.Select>
     </>)
 }
