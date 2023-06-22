@@ -10,6 +10,7 @@ const RouteNavbar = props => {
                     <Nav.Link onClick={()=>{props.setPage('table'); localStorage.setItem('page', 'table')}} href="#">Table</Nav.Link>
                     <Nav.Link onClick={()=>{props.setPage('posts'); localStorage.setItem('page', 'posts')}} href="#">News</Nav.Link>
                     <Nav.Link onClick={()=>{props.setPage('messages'); localStorage.setItem('page', 'messages')}} href="#">Messages</Nav.Link>
+                    <Nav.Link onClick={()=>{props.setPage('versions'); localStorage.setItem('page', 'versions')}} href="#">Versions</Nav.Link>
                 </Nav>
             </Container>
         </Navbar>
