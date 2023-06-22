@@ -64,7 +64,15 @@ const VersionsPage = props => {
                                 })
 
                             }}>Show info</Button> {' '}
-                            <Button variant="danger" size="sm">Delete</Button> {' '}
+                            <Button variant="danger" size="sm" onClick={() => {
+                                const headers = { 'Authorization': 'Bearer 12345' }
+
+                                fetch(`http://127.0.0.1:8000/delete_build?version=${version}`, {method: 'DELETE', headers: headers})
+                                .then(response => response.json()).then(info => {
+                                    setIsSending(!isSending)
+                                })
+
+                            }}>Delete</Button> {' '}
                         </div>
                         </Col>
                     </Row>
