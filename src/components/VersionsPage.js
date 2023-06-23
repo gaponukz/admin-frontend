@@ -14,13 +14,15 @@ const VersionsPage = props => {
     const [isSending, setIsSending] = useState(false)
 
     useEffect(() => {
-        // `${props.apiServer}/get_versions`
-        // props.adminApiKey = "12345"
-        const headers = { 'Authorization': 'Bearer 12345' }
-        fetch("http://127.0.0.1:8000/get_versions", { headers })
+        const headers = { 'Authorization': `Bearer ${props.adminApiKey}` }
+        fetch(`${props.apiServer}/versions/get_versions`, { headers })
         .then(async response => await response.json()).then(async response => {
-            setVersions(response.awiable)
+            setVersions(response.awiable ? response.awiable : [])
             setCurrentVersion(response.current)
+        }).catch(err => {
+            setVersions([])
+            setCurrentVersion(undefined)
+            console.log(err);
         })
     }, [isSending])
     
@@ -44,9 +46,8 @@ const VersionsPage = props => {
                         <Col>
                         <div style={{textAlign: 'right'}}>
                             <Button variant="dark" size="sm" onClick={() => {
-                                // props.apiServer
-                                const headers = { 'Authorization': 'Bearer 12345' }
-                                fetch(`http://127.0.0.1:8000/set_current_version?version=${version}`, {
+                                const headers = { 'Authorization': `Bearer ${props.adminApiKey}` }
+                                fetch(`${props.apiServer}/versions/set_current_version?version=${version}`, {
                                     method: "POST",
                                     headers: headers
                                 }).then(response => response.json()).then(response => {
@@ -55,9 +56,9 @@ const VersionsPage = props => {
                             }}>Set as current version</Button> {' '}
                             
                             <Button variant="info" size="sm" onClick={() => {
-                                const headers = { 'Authorization': 'Bearer 12345' }
+                                const headers = { 'Authorization': `Bearer ${props.adminApiKey}` }
 
-                                fetch(`http://127.0.0.1:8000/get_build_info?version=${version}`, {headers: headers})
+                                fetch(`${props.apiServer}/versions/get_build_info?version=${version}`, {headers: headers})
                                 .then(response => response.json()).then(info => {
                                     console.log(info)
                                     alert(`version: ${info.version}\nfile: ${info.file_path}\ndescription: ${info.description}\ncreated at: ${info.created_at}`)
@@ -65,9 +66,9 @@ const VersionsPage = props => {
 
                             }}>Show info</Button> {' '}
                             <Button variant="danger" size="sm" onClick={() => {
-                                const headers = { 'Authorization': 'Bearer 12345' }
+                                const headers = { 'Authorization': `Bearer ${props.adminApiKey}` }
 
-                                fetch(`http://127.0.0.1:8000/delete_build?version=${version}`, {method: 'DELETE', headers: headers})
+                                fetch(`${props.apiServer}/versions/delete_build?version=${version}`, {method: 'DELETE', headers: headers})
                                 .then(response => response.json()).then(info => {
                                     setIsSending(!isSending)
                                 })
@@ -147,7 +148,7 @@ const AddBuildModal = props => {
         </Modal.Body>
         <Modal.Footer>
             <Button variant="outline-secondary" onClick={() => {
-                const headers = { 'Authorization': 'Bearer 12345' }
+                const headers = { 'Authorization': `Bearer ${props.adminApiKey}` }
                 const formData = new FormData()
 
                 formData.append('file', file)
@@ -155,7 +156,7 @@ const AddBuildModal = props => {
                 formData.append('description', description)
                 
                 // props.apiServer
-                fetch(`http://127.0.0.1:8000/upload_files`, {
+                fetch(`${props.apiServer}/versions/upload_files`, {
                     method: "POST",
                     body: formData,
                     headers: headers
